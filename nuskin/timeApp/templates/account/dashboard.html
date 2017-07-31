@@ -4,5 +4,109 @@
 
 {% block content %}
 	<h1>Dashboard</h1>
-	<p>Welcome to your dashboard!</p>
+	
+	<div id='timeSelectContainer'>
+		<h3>Select time off type:</h3>
+		<ul id='radioList'>
+			<li><input type="radio" id="singleDayRadio" name="rangeType" value="single" checked>&nbsp;Single Day<br><br></li>
+		  	<li><input type="radio" id="nDayRadio" name="rangeType" value="many">&nbsp;Date Range<br></li>
+	  	</ul>
+	  	<div id="singleDayContainer">
+	  		<br>
+			<h3>Select a Single Day:</h3>
+			<div class="daterange daterange--single one"></div>
+		</div>
+		<br>
+		<div id="nDayContainer">
+			<br>
+			<h3>Select a Date Range:</h3>
+			<div class="daterange daterange--double one"></div>
+		</div>
+
+		<button id="timeSubmitBtn" class="">Submit</button>
+	</div>
+
+	<div id="ytdContainer">
+		
+	</div>
+
+	<script>
+		var oneDayCalendar = new Calendar({
+		  // Element to populate with a calendar
+		  element: $('.daterange--single'),
+
+		  // Beginning and End of calendar range
+		  earliest_date: moment().subtract(1, 'years'),
+		  latest_date: moment().add(1, 'years'),
+
+		  // Beginning and End of time off range
+		  start_date: moment(),
+		  end_date: moment().add(1, 'days'),
+
+		  callback: function() {
+		    var start = moment(this.start_date).format('ll'),
+		        end = moment(this.end_date).format('ll');
+
+		    console.debug('Start Date: '+ start +'\nEnd Date: '+ end);
+		  }
+		});
+
+		var nDayCalendar = new Calendar({
+		  // Element to populate with a calendar
+		  element: $('.daterange--double'),
+
+		  // Beginning and End of calendar range
+		  earliest_date: moment().subtract(1, 'years'),
+		  latest_date: moment().add(1, 'years'),
+
+		  // Beginning and End of time off range
+		  start_date: moment(),
+		  end_date: moment().add(1, 'days'),
+
+		  callback: function() {
+		    var start = moment(this.start_date).format('ll'),
+		        end = moment(this.end_date).format('ll');
+
+		    console.debug('Start Date: '+ start +'\nEnd Date: '+ end);
+		  }
+		});
+
+
+		// Handle radio button selection
+		document.getElementById('singleDayRadio').addEventListener('click', function(){
+			console.log("Single Day clicked")
+			hideShowDivs()
+
+		});
+
+		document.getElementById('nDayRadio').addEventListener('click', function(){
+			console.log("n-Day clicked")
+			hideShowDivs()
+		})
+
+		function hideShowDivs(){
+			var singleDayBtn = document.getElementById('singleDayRadio')
+			var nDayBtn = document.getElementById('nDayRadio')
+
+			var singleDayContainer = document.getElementById('singleDayContainer')
+			var nDayContainer = document.getElementById('nDayContainer')
+			if(singleDayBtn.checked){
+				singleDayContainer.style.display = 'block';
+				nDayContainer.style.display = 'none';
+			}
+			if(nDayBtn.checked){
+				singleDayContainer.style.display = 'none';
+				nDayContainer.style.display = 'block';
+			}
+		}
+
+		hideShowDivs();
+
+
+
+		// Submit Time button
+		document.getElementById('timeSubmitBtn').addEventListener('click', function(){
+			alert("You clicked the submit btn")
+		});
+	</script>
 {% endblock %}

@@ -1,9 +1,10 @@
 @import url(http://fonts.googleapis.com/css?family=Muli);
 
-body {
+body, html {
     margin:0;
-    padding:0;
+    padding:0 !important;
     font-family:helvetica, sans-serif;
+    background-color: #e2e2e2;
 }
 
 p {
@@ -274,4 +275,75 @@ img.user-detail {
 .action .date {
     font-style:italic;
     color:#ccc;
+}
+
+#logoutButton {
+    background: white !important;
+    color: #12c064 !important;
+    padding: 8px 12px;
+    border-radius: 3px;
+    font-weight: 900;
+    border: 1px solid rgba(255,255,255,1);
+}
+
+#logoutButton:hover {
+    background-color: rgba(0,0,0,0) !important;
+    color: white !important;
+    border: 1px solid white;
+}
+
+
+/* Login Form */
+.login-form {
+    padding: 20px 50px;
+    background-color: white;
+    box-shadow: 1px 2px 8px grey;
+}
+
+
+
+/* Date Range CSS */
+.daterange {
+    float: none;
+}
+
+/*#nDayContainer{
+    display: none;
+}*/
+
+#radioList {
+    list-style-type: none;
+}
+
+#nDayContainer{
+    margin-top: -18px;
+    margin-bottom: 18px;
+}
+
+#timeSelectContainer {
+    float: left;
+    width: 400px;
+    padding: 30px 40px;
+    background-color: white;
+    box-shadow: 1px 2px 8px grey;
+}
+
+#timeSelectContainer h3 {
+    border-bottom: 1px solid grey;
+}
+
+#timeSubmitBtn {
+    background-color: #12c064;
+    border-style: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    color: white;
+    font-weight: 900;
+    float: right;
+    cursor: pointer;
+    transition: background-color .25s;
+}
+
+#timeSubmitBtn:hover {
+    background-color: #1cdf78; 
 }

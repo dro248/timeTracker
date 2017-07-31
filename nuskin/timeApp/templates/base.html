@@ -3,24 +3,40 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
-    <link href="{% static "css/base.css" %}" rel="stylesheet">
-</head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+	<!-- <link rel="stylesheet" href="css/application.css" />
+	<link rel="stylesheet" href="css/home.css" /> -->
+	<!-- <script src="js/vendor/jquery.js"></script>
+	<script src="js/vendor/moment.js"></script> -->
+
+	<link rel="stylesheet" href="{% static 'css/application.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+	<script src="{% static 'js/vendor/jquery.js' %}"></script>
+	<script src="{% static 'js/vendor/moment.js' %}"></script>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+
+    <script src="{% static 'js/Calendar.js' %}"></script>
+  	<script src="{% static 'js/app.js' %}"></script>
+	</head>
 <body>
     <div id="header">
-        <span class="logo">Time Trackerz</span>
+        <span class="logo">Time Tracker</span>
         {% if request.user.is_authenticated %}
         <ul class="menu">
-            <li {% if section == "dashboard" %}class="selected"{% endif %}><a href="{% url "dashboard" %}">My dashboard</a></li>
-            <li {% if section == "images" %}class="selected"{% endif %}><a href="#">Images</a></li>
-            <li {% if section == "people" %}class="selected"{% endif %}><a href="#">People</a></li>
+            <li {% if section == "dashboard" %}class="selected"{% endif %}><a href="{% url 'dashboard' %}">My dashboard</a></li>
+            <!-- <li {% if section == "images" %}class="selected"{% endif %}><a href="#">Images</a></li> -->
+            <!-- <li {% if section == "people" %}class="selected"{% endif %}><a href="#">People</a></li> -->
         </ul>
         {% endif %}
         
         <span class="user">
         {% if request.user.is_authenticated %}
-            Hello {{ request.user.first_name }}, <a href="{% url "logout" %}">Logout</a>
+            <!-- Hello {{ request.user.first_name }}, <a href="{% url 'logout' %}">Logout</a> -->
+            Hello {{ request.user.username }}! &nbsp; | &nbsp; <a href="{% url 'logout' %}" id="logoutButton">Logout</a>
         {% else %}
-            <a href="{% url "login" %}">Log-in</a>
+            <a href="{% url 'login' %}">Log-in</a>
         {% endif %}
         </span>
     </div>
