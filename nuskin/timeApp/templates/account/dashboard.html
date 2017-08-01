@@ -76,7 +76,6 @@
 		document.getElementById('singleDayRadio').addEventListener('click', function(){
 			console.log("Single Day clicked")
 			hideShowDivs()
-
 		});
 
 		document.getElementById('nDayRadio').addEventListener('click', function(){
@@ -102,11 +101,27 @@
 
 		hideShowDivs();
 
-
-
 		// Submit Time button
 		document.getElementById('timeSubmitBtn').addEventListener('click', function(){
-			alert("You clicked the submit btn")
+			var singleDayBtn = document.getElementById('singleDayRadio')
+			var nDayBtn = document.getElementById('nDayRadio')
+			
+			if(singleDayBtn.checked && oneDayCalendar.current_date["_i"] !== undefined){
+				// print the date
+				console.log("Day Off: " + oneDayCalendar.current_date["_i"])
+
+				// TODO: Ajax request with all the data
+			}
+
+			if(nDayBtn.checked){
+				console.log("User: " + "{{ request.user.username }}")
+				console.log("Time: " + new Date())
+				console.log("Start Date: " + nDayCalendar.orig_start_date["_d"])
+				console.log("End Date: " + nDayCalendar.orig_end_date["_d"])
+			}
+
 		});
+
+
 	</script>
 {% endblock %}
