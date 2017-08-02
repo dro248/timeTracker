@@ -14,4 +14,7 @@ urlpatterns = [
 	# change password urls
 	url(r'^password-change/$', 		password_change, 		name='password_change'),
 	url(r'^password-change/done/$', password_change_done, 	name='password_change_done'),
+
+	# request time off endpoint
+	url(r'^time/$',					views.request_time_off,	name='request_time_off'),
 ]

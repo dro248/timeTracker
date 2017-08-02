@@ -14,13 +14,13 @@
 	  	<div id="singleDayContainer">
 	  		<br>
 			<h3>Select a Single Day:</h3>
-			<div class="daterange daterange--single one"></div>
+			<div class="daterange daterange--single one" id='singleCalDiv'></div>
 		</div>
 		<br>
 		<div id="nDayContainer">
 			<br>
 			<h3>Select a Date Range:</h3>
-			<div class="daterange daterange--double one"></div>
+			<div class="daterange daterange--double one" id='nCalDiv'></div>
 		</div>
 
 		<button id="timeSubmitBtn" class="">Submit</button>
@@ -74,12 +74,10 @@
 
 		// Handle radio button selection
 		document.getElementById('singleDayRadio').addEventListener('click', function(){
-			console.log("Single Day clicked")
 			hideShowDivs()
 		});
 
 		document.getElementById('nDayRadio').addEventListener('click', function(){
-			console.log("n-Day clicked")
 			hideShowDivs()
 		})
 
@@ -106,18 +104,72 @@
 			var singleDayBtn = document.getElementById('singleDayRadio')
 			var nDayBtn = document.getElementById('nDayRadio')
 			
-			if(singleDayBtn.checked && oneDayCalendar.current_date["_i"] !== undefined){
-				// print the date
-				console.log("Day Off: " + oneDayCalendar.current_date["_i"])
+			if(singleDayBtn.checked){
+				var singleCalDiv = document.getElementById('singleCalDiv')
+				if(singleCalDiv.innerText === "") {
+					alert("SINGLE DAY SELECTION: Please select a date first.")
+					return
+				}
 
-				// TODO: Ajax request with all the data
+				var username = '{{ request.user.username }}'
+				var timestamp = new Date()
+				var dayOff = oneDayCalendar.current_date["_i"]
+				var req_params = `type=single&user=${username}&timestamp=${timestamp}&dayOff=${dayOff}`
+				var url = '/account/time/'
+				var xhr = new XMLHttpRequest()
+
+				console.log("user: " + username)
+				console.log("timestamp: " + timestamp)
+				console.log("Requested Day Off: " + dayOff)
+				console.log('req_params: ' + req_params)
+
+				xhr.open("POST", url, true)
+				xhr.onreadystatechange = function() {
+					//Call a function when the state changes.
+				    if(xhr.readyState == 4 && xhr.status == 200) {
+				        console.log("POST: success!")
+
+				        //  TODO: Create a visual cue to show that submission was successful!
+				    }
+				}
+				xhr.send(req_params)
 			}
 
 			if(nDayBtn.checked){
-				console.log("User: " + "{{ request.user.username }}")
-				console.log("Time: " + new Date())
-				console.log("Start Date: " + nDayCalendar.orig_start_date["_d"])
-				console.log("End Date: " + nDayCalendar.orig_end_date["_d"])
+				if(nDayCalendar.orig_start_date === null 
+					|| nDayCalendar.orig_end_date === null){
+					alert("DATE RANGE SELECTION: Please select a start date and end date first.")
+					return
+				}
+
+				// TODO: Ajax request with all the data
+
+				var username = '{{ request.user.username }}'
+				var timestamp = new Date()
+				var req_start_date = nDayCalendar.orig_start_date["_d"]
+				var req_end_date = nDayCalendar.orig_end_date["_d"]
+				var req_params = `type=multiple&user=${username}&timestamp=${timestamp}&start_date=${req_start_date}&end_date=${req_end_date}`
+				var url = '/account/time/'
+				var xhr = new XMLHttpRequest()
+
+				console.log("user: " + username)
+				console.log("timestamp: " + timestamp)
+				console.log("Start Date: " + req_start_date)
+				console.log("End Date: " + req_end_date)
+				console.log('req_params: ' + req_params)
+
+				xhr.open("POST", url, true)
+				xhr.onreadystatechange = function() {
+					//Call a function when the state changes.
+				    if(xhr.readyState == 4 && xhr.status == 200) {
+				        console.log("POST: success!")
+
+				        //  TODO: Create a visual cue to show that submission was successful!
+				    }
+				}
+				xhr.send(req_params)
+
+
 			}
 
 		});
