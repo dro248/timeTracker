@@ -114,13 +114,13 @@
 				var username = '{{ request.user.username }}'
 				var timestamp = new Date()
 				var dayOff = oneDayCalendar.current_date["_i"]
-				var req_params = `type=single&user=${username}&timestamp=${timestamp}&dayOff=${dayOff}`
+				var req_params = `type=single&user=${username}&timestamp=${timestamp}&dayOff=${format_date(dayOff)}`
 				var url = '/account/time/'
 				var xhr = new XMLHttpRequest()
 
 				console.log("user: " + username)
 				console.log("timestamp: " + timestamp)
-				console.log("Requested Day Off: " + dayOff)
+				console.log("Requested Day Off: " + format_date(dayOff))
 				console.log('req_params: ' + req_params)
 
 				xhr.open("POST", url, true)
@@ -148,14 +148,14 @@
 				var timestamp = new Date()
 				var req_start_date = nDayCalendar.orig_start_date["_d"]
 				var req_end_date = nDayCalendar.orig_end_date["_d"]
-				var req_params = `type=multiple&user=${username}&timestamp=${timestamp}&start_date=${req_start_date}&end_date=${req_end_date}`
+				var req_params = `type=multiple&user=${username}&timestamp=${timestamp}&start_date=${format_date(req_start_date)}&end_date=${format_date(req_end_date)}`
 				var url = '/account/time/'
 				var xhr = new XMLHttpRequest()
 
 				console.log("user: " + username)
 				console.log("timestamp: " + timestamp)
-				console.log("Start Date: " + req_start_date)
-				console.log("End Date: " + req_end_date)
+				console.log("Start Date: " + format_date(req_start_date))
+				console.log("End Date: " + format_date(req_end_date))
 				console.log('req_params: ' + req_params)
 
 				xhr.open("POST", url, true)
@@ -174,6 +174,17 @@
 
 		});
 
+		function format_date(raw_date){
+			var d = new Date(raw_date),
+		        month = '' + (d.getMonth() + 1),
+		        day = '' + d.getDate(),
+		        year = d.getFullYear();
+
+		    if (month.length < 2) month = '0' + month;
+		    if (day.length < 2) day = '0' + day;
+
+		    return [year, month, day].join('-');
+		}
 
 	</script>
 {% endblock %}
