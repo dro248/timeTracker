@@ -6,28 +6,40 @@
 	<h1>Dashboard</h1>
 	
 	<div id='timeSelectContainer'>
-		<h3>Select time off type:</h3>
-		<ul id='radioList'>
-			<li><input type="radio" id="singleDayRadio" name="rangeType" value="single" checked>&nbsp;Single Day<br><br></li>
-		  	<li><input type="radio" id="nDayRadio" name="rangeType" value="many">&nbsp;Date Range<br></li>
-	  	</ul>
-	  	<div id="singleDayContainer">
-	  		<br>
-			<h3>Select a Single Day:</h3>
-			<div class="daterange daterange--single one" id='singleCalDiv'></div>
-		</div>
-		<br>
-		<div id="nDayContainer">
+		<form action="/account/dashboard/" method="post" onsubmit="return submitRequest()">
+			{% csrf_token %}
+			<h3>Select time off type:</h3>
+			<ul class='radioList'>
+				<li><input type="radio" id="singleDayRadio" name="rangeType" value="single" checked>&nbsp;Single Day<br><br></li>
+			  	<li><input type="radio" id="nDayRadio" name="rangeType" value="many">&nbsp;Date Range<br></li>
+		  	</ul>
+		  	<div id="singleDayContainer">
+		  		<br>
+				<h3>Select a Single Day:</h3>
+				<ul class='radioList'>
+					<li><input type='radio' name="dayType" value="full" checked>&nbsp;Full Day<br><br></li>
+					<li><input type='radio' name="dayType" value="half">&nbsp;Half Day</li>
+				</ul>
+				<div class="daterange daterange--single one" id='singleCalDiv'></div>
+			</div>
 			<br>
-			<h3>Select a Date Range:</h3>
-			<div class="daterange daterange--double one" id='nCalDiv'></div>
-		</div>
+			<div id="nDayContainer">
+				<br>
+				<h3>Select a Date Range:</h3>
+				<div class="daterange daterange--double one" id='nCalDiv'></div>
+			</div>
 
-		<button id="timeSubmitBtn" class="">Submit</button>
+			<input type="hidden" name="username" value="{{ request.user.username }}">
+			<input type="hidden" id="hiddenStartTime" name="startTime" value="EMPTY">
+			<input type="hidden" id="hiddenEndTime" name="endTime" value="EMPTY">
+			<input type="checkbox" id="sickCheckbox" name="sickOption">&nbsp;Sick Leave? <span style="color: grey">(Optional)</span><br><br><br>
+			<input type="submit" value="Submit">
+			<!-- <button id="timeSubmitBtn" class="">Submit</button> -->
+		</form>
 	</div>
 
 	<div id="ytdContainer">
-		
+		<h3>History:</h3>
 	</div>
 
 	<script>
@@ -98,6 +110,56 @@
 		}
 
 		hideShowDivs();
+
+
+		function submitRequest(){
+			var singleDateCalendarText = document.getElementsByClassName('dr-date')[0].innerText,
+				dateRangeCalendarStartText = document.getElementsByClassName('dr-date-start')[0].innerText,
+				dateRangeCalendarEndText = document.getElementsByClassName('dr-date-end')[0].innerText,
+				singleDayRadioBtn = document.getElementById('singleDayRadio'),
+				nDayRadioBtn = document.getElementById('nDayRadio'),
+				startDate,
+				endDate,
+				sickLeave = document.getElementById('sickCheckbox')
+
+			// Check for valid date
+			if(singleDayRadioBtn.checked &&  singleDateCalendarText == "" 
+				|| nDayRadioBtn.checked && dateRangeCalendarStartText == ""){
+				alert('Please enter a valid date')
+				return false
+			}
+			if(singleDayRadioBtn.checked){
+				startDate = (oneDayCalendar.current_date["_i"])
+				document.getElementById('hiddenStartTime').value = format_date(startDate)
+			}
+			if(nDayRadioBtn.checked){
+				startDate = format_date(nDayCalendar['start_date']['_d'])
+				endDate = format_date(nDayCalendar['end_date']['_d'])
+
+				document.getElementById('hiddenStartTime').value = startDate
+				document.getElementById('hiddenEndTime').value = endDate
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		// Submit Time button
 		document.getElementById('timeSubmitBtn').addEventListener('click', function(){

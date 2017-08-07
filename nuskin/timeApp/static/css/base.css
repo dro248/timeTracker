@@ -87,7 +87,7 @@ ol {
 
 /* forms */
 form {
-    overflow:auto;
+    /*overflow:auto;*/
 }
 
 form p {
@@ -311,7 +311,7 @@ img.user-detail {
     display: none;
 }*/
 
-#radioList {
+.radioList{
     list-style-type: none;
 }
 
@@ -320,15 +320,16 @@ img.user-detail {
     margin-bottom: 18px;
 }
 
-#timeSelectContainer {
+#timeSelectContainer, #ytdContainer {
     float: left;
     width: 400px;
     padding: 30px 40px;
     background-color: white;
     box-shadow: 1px 2px 8px grey;
+    margin: 15px;
 }
 
-#timeSelectContainer h3 {
+#timeSelectContainer h3, #ytdContainer h3 {
     border-bottom: 1px solid grey;
 }
 

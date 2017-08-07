@@ -11,6 +11,7 @@ class RequestDate(models.Model):
 	start_date = models.DateField()
 	end_date = models.DateField(null=True, blank=True)		
 	approval_status = models.CharField(max_length=10)
+	sickLeave = models.BooleanField(default=False)
 	# {'PENDING', 'APPROVED', 'DENIED'}
 
 	def approve(self):
@@ -20,4 +21,4 @@ class RequestDate(models.Model):
 		self.approval_status = 'DENIED'
 
 	def __str__(self):
-		return str(self.username) + " (start:" + str(self.start_date) + "  -  end:" + str(self.end_date) + ")"
+		return str(self.username) + " (start:" + str(self.start_date) + "  -  end:" + str(self.end_date) + ") -- Sick: " + str(self.sickLeave)

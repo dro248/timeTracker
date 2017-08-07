@@ -12,8 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 import pdb
 
-# Create your views here.
-
 def user_login(request):
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
@@ -41,64 +39,61 @@ def user_login(request):
 
 @login_required
 def dashboard(request):
-	return render(request, 'account/dashboard.html', {'section': 'dashboard'})
-
-
-@csrf_exempt
-def request_time_off(request):
-	# pdb.set_trace()
 	if request.method == 'POST':
+		print("YOU POSTED TO '/DASHBOARD'")
+
+		# Get Request String
 		req_string = request.read()
-		req_type 	= req_string.split('&')[0].split('=')[1]
-		username 	= req_string.split('&')[1].split('=')[1]
-		timestamp	= req_string.split('&')[2].split('=')[1]
+		print("request:", req_string.split('&'))
 
-		print'type:', req_type
-		print'username:', username
-		print'timestamp:', timestamp
+		# Parse Request String
+		# csrf_token 	= req_string.split('&')[0].split('=')[1]
+		rangeType 	= req_string.split('&')[1].split('=')[1]
+		dayType 	= req_string.split('&')[2].split('=')[1]
+		username 	= req_string.split('&')[3].split('=')[1]
+		startTime	= req_string.split('&')[4].split('=')[1]
+		endTime		= req_string.split('&')[5].split('=')[1]
+		sickLeave	= False if len(req_string.split('&')) < 7 else True
 
-		if req_type == 'single':
-			print "single"
-			print ""
-			req_day_off = req_string.split('&')[3].split('=')[1]
-			print 'day off:', req_day_off
+		print(type(req_string.split('&')))
 
-			# Create RequestDate entry to database
-			year = int(req_day_off.split('-')[0])
-			month = int(req_day_off.split('-')[1])
-			day = int(req_day_off.split('-')[2])
+		print("Range Type:", rangeType)
+		print("Day Type:", dayType)
+		print("username:", username)
+		print("Start Time:", startTime)
+		print("End Time:", endTime)
+		print("Sick Leave:", str(sickLeave))
+
+		if rangeType == 'single':
+			print 'single'
+			year = int(startTime.split('-')[0])
+			month = int(startTime.split('-')[1])
+			day = int(startTime.split('-')[2])
 			requestedDate = RequestDate(username=username, 
 				start_date = datetime.date(year, month, day), 
 				end_date=None, 
+				sickLeave= sickLeave,
 				approval_status='PENDING')
 			requestedDate.save()
-			print ("requestedDate:", requestedDate)
 
 
-		if req_type == 'multiple':
-			print "multiple"
-			print ""
-			start_date = req_string.split('&')[3].split('=')[1]
-			end_date = req_string.split('&')[4].split('=')[1]
-			print "start date:", start_date
-			print "end date:", end_date 
 
+		elif rangeType == 'many':
+			print 'many'
 			# Create RequestedDate entry to database
-			start_year = int(start_date.split('-')[0])
-			start_month = int(start_date.split('-')[1])
-			start_day = int(start_date.split('-')[2])
+			start_year = int(startTime.split('-')[0])
+			start_month = int(startTime.split('-')[1])
+			start_day = int(startTime.split('-')[2])
 			
-			end_year = int(end_date.split('-')[0])
-			end_month = int(end_date.split('-')[1])
-			end_day = int(end_date.split('-')[2])
+			end_year = int(endTime.split('-')[0])
+			end_month = int(endTime.split('-')[1])
+			end_day = int(endTime.split('-')[2])
 
 			requestedDate = RequestDate(username=username, 
 				start_date = datetime.date(start_year, start_month, start_day), 
 				end_date = datetime.date(end_year, end_month, end_day), 
+				sickLeave= sickLeave,
 				approval_status='PENDING')
 			requestedDate.save()
-		else:
-			pass
 
-
-	return HttpResponse('OK')
+	return render(request, 'account/dashboard.html', {'section': 'dashboard'})
