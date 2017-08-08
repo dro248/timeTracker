@@ -64,6 +64,7 @@ def dashboard(request):
 		print("End Time:", endTime)
 		print("Sick Leave:", str(sickLeave))
 
+
 		if rangeType == 'single':
 			print 'single'
 			year = int(startTime.split('-')[0])
@@ -73,10 +74,9 @@ def dashboard(request):
 				start_date = datetime.date(year, month, day), 
 				end_date=None, 
 				sickLeave= sickLeave,
+				halfDay = True if dayType == "half" else False,
 				approval_status='PENDING')
 			requestedDate.save()
-
-
 
 		elif rangeType == 'many':
 			print 'many'
@@ -93,7 +93,13 @@ def dashboard(request):
 				start_date = datetime.date(start_year, start_month, start_day), 
 				end_date = datetime.date(end_year, end_month, end_day), 
 				sickLeave= sickLeave,
+				halfDay = True if dayType == "half" else False,
 				approval_status='PENDING')
 			requestedDate.save()
 
-	return render(request, 'account/dashboard.html', {'section': 'dashboard'})
+	entries = RequestDate.objects.all().filter(username=request.user.username).order_by('-timestamp')
+
+	return render(request, 'account/dashboard.html', {
+		'section': 'dashboard',
+		'entries': entries
+		})

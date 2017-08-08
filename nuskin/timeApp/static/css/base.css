@@ -348,3 +348,46 @@ img.user-detail {
 #timeSubmitBtn:hover {
     background-color: #1cdf78; 
 }
+
+#ytdContainer li { 
+    list-style-type: none;
+ }
+
+#ytdContainer li p {
+    padding: 8px;
+    margin: 4px 0;
+    border: 1px solid #cacaca;
+    /*box-shadow: 1px 1px 2px grey;*/
+    border-radius: 3px;
+    width: 300px;
+    /*background-color: white;*/
+}
+
+#ytdContainer li p:hover{
+    border-color: #2693d5;
+}
+
+
+#ytdList {
+    height: 357px;
+    overflow-y: scroll;
+    background-color: rgb(245,245,245)
+}
+
+.PENDING {
+    background-color: #fcf8e3;
+    border-color: #faf2cc;
+    color: #8a6d3b;
+}
+
+.APPROVED {
+    background-color: #dff0d8;
+    border-color: #d0e9c6;
+    color: #3c763d;
+}
+
+.DENIED {
+  background-color: #f2dede;
+  border-color: #ebcccc;
+  color: #a94442;  
+}
