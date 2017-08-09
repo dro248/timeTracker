@@ -11,6 +11,7 @@
 	<!-- <script src="js/vendor/jquery.js"></script>
 	<script src="js/vendor/moment.js"></script> -->
 
+    <link rel="icon" href="{% static 'img/clock.png' %}" type="image/x-icon"/>
 	<link rel="stylesheet" href="{% static 'css/application.css' %}" />
 	<link rel="stylesheet" href="{% static 'css/home.css' %}" />
 	<script src="{% static 'js/vendor/jquery.js' %}"></script>
@@ -34,9 +35,10 @@
         <span class="user">
         {% if request.user.is_authenticated %}
             <!-- Hello {{ request.user.first_name }}, <a href="{% url 'logout' %}">Logout</a> -->
-            Hello {{ request.user.username }}! &nbsp; | &nbsp; <a href="{% url 'logout' %}" id="logoutButton">Logout</a>
+            Hello {{ request.user.username }}! &nbsp; | &nbsp; <a id='loginBtn' href="{% url 'logout' %}" id="logoutButton">Logout</a>
         {% else %}
-            <a href="{% url 'login' %}">Log-in</a>
+            <a id='loginBtn' href="{% url 'login' %}">Login</a>
+            <a id='signUpBtn' href="/account/signup">Sign Up</a>
         {% endif %}
         </span>
     </div>

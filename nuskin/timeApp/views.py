@@ -37,6 +37,10 @@ def user_login(request):
 	return render(request, 'account/login.html', {'form': form})
 
 
+def signUp(request):
+	return render(request, 'registration/signUp.html', {})
+
+
 @login_required
 def dashboard(request):
 	if request.method == 'POST':
